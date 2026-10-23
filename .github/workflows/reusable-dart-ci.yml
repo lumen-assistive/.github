@@ -7,12 +7,16 @@ on:
         description: Directory containing the Dart or Flutter package.
         type: string
         default: "."
+      target:
+        description: Either "dart" for a pure Dart package or "flutter" for a Flutter package.
+        type: string
+        default: "dart"
       flutter-version:
-        description: Flutter SDK version to install. Leave empty for a Dart-only package.
+        description: Exact Flutter SDK version to install when target is "flutter". Leave empty to use the latest stable release.
         type: string
         default: ""
       dart-version:
-        description: Dart SDK version to install when flutter-version is empty.
+        description: Dart SDK version to install when target is "dart".
         type: string
         default: "stable"
       run-build-runner:
@@ -30,50 +34,45 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Flutter
-        if: ${{ inputs.flutter-version != '' }}
+        if: ${{ inputs.target == 'flutter' }}
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ inputs.flutter-version }}
           channel: stable
+          flutter-version: ${{ inputs.flutter-version }}
 
       - name: Set up Dart
-        if: ${{ inputs.flutter-version == '' }}
+        if: ${{ inputs.target == 'dart' }}
         uses: dart-lang/setup-dart@v1
         with:
           sdk: ${{ inputs.dart-version }}
 
       - name: Install dependencies (Flutter)
-        if: ${{ inputs.flutter-version != '' }}
+        if: ${{ inputs.target == 'flutter' }}
         run: flutter pub get
 
       - name: Install dependencies (Dart)
-        if: ${{ inputs.flutter-version == '' }}
+        if: ${{ inputs.target == 'dart' }}
         run: dart pub get
 
       - name: Run build_runner
         if: ${{ inputs.run-build-runner }}
         run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Check formatting (Flutter)
-        if: ${{ inputs.flutter-version != '' }}
-        run: dart format --output=none --set-exit-if-changed .
-
-      - name: Check formatting (Dart)
-        if: ${{ inputs.flutter-version == '' }}
+      - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
 
       - name: Analyze (Flutter)
-        if: ${{ inputs.flutter-version != '' }}
+        if: ${{ inputs.target == 'flutter' }}
         run: flutter analyze --fatal-infos
 
       - name: Analyze (Dart)
-        if: ${{ inputs.flutter-version == '' }}
+        if: ${{ inputs.target == 'dart' }}
         run: dart analyze --fatal-infos
 
       - name: Test (Flutter)
-        if: ${{ inputs.flutter-version != '' }}
+        if: ${{ inputs.target == 'flutter' }}
         run: flutter test --coverage
 
       - name: Test (Dart)
-        if: ${{ inputs.flutter-version == '' }}
+        if: ${{ inputs.target == 'dart' }}
         run: dart test
