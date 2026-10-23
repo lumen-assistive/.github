@@ -1,0 +1,34 @@
+name: Reusable content guard
+
+on:
+  workflow_call: {}
+
+jobs:
+  content-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reject AI tool references and co-authorship trailers
+        run: |
+          set -euo pipefail
+          # Excludes this workflow and the commit-msg hook, which must name
+          # the forbidden terms literally in order to detect them.
+          pattern='(Co-authored-by|Claude|Anthropic|Codebuff|Cursor|Generated with)'
+          excludes=(':!*.lock' ':!**/CHANGELOG.md' ':!.github/workflows/reusable-content-guard.yml' ':!.githooks/commit-msg')
+          if git grep -IEiq "$pattern" -- . "${excludes[@]}"; then
+            echo "Forbidden AI tool reference or co-authorship trailer found in tracked files:" >&2
+            git grep -IEin "$pattern" -- . "${excludes[@]}" >&2 || true
+            exit 1
+          fi
+
+      - name: Reject emoji in tracked files
+        run: |
+          set -euo pipefail
+          if git grep -IPq '[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}]' -- . ; then
+            echo "Emoji found in tracked files:" >&2
+            git grep -IPn '[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}]' -- . >&2 || true
+            exit 1
+          fi

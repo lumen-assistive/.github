@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  content-guard:
+    uses: lumen-assistive/.github/.github/workflows/reusable-content-guard.yml@main
+
+  lint-yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+      - name: Validate workflow and template YAML
+        run: |
+          set -euo pipefail
+          python3 - <<'PYEOF'
+          import pathlib
+          import sys
+
+          import yaml
+
+          failed = False
+          for path in pathlib.Path(".").rglob("*.yml"):
+              try:
+                  yaml.safe_load(path.read_text(encoding="utf-8"))
+              except yaml.YAMLError as exc:
+                  print(f"{path}: {exc}", file=sys.stderr)
+                  failed = True
+          sys.exit(1 if failed else 0)
+          PYEOF

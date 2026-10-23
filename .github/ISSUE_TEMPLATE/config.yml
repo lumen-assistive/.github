@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/lumen-assistive/.github/security/advisories/new
+    about: Report a security vulnerability privately instead of opening a public issue.
+  - name: Discussions
+    url: https://github.com/orgs/lumen-assistive/discussions
+    about: Ask a question or start a design discussion that is not a bug or a concrete feature request.

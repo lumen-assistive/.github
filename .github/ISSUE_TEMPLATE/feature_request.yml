@@ -1,0 +1,33 @@
+name: Feature request
+description: Suggest an improvement or a new capability
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem or need does this address? Who is affected?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What you would like to see happen.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you considered and why you did not choose them.
+    validations:
+      required: false
+  - type: checkboxes
+    id: accessibility
+    attributes:
+      label: Accessibility impact
+      description: Confirm you have considered accessibility implications.
+      options:
+        - label: This proposal preserves or improves screen reader support, contrast, touch target size, and voice reachability.
+          required: true

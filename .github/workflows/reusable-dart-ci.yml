@@ -1,0 +1,79 @@
+name: Reusable Dart CI
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: Directory containing the Dart or Flutter package.
+        type: string
+        default: "."
+      flutter-version:
+        description: Flutter SDK version to install. Leave empty for a Dart-only package.
+        type: string
+        default: ""
+      dart-version:
+        description: Dart SDK version to install when flutter-version is empty.
+        type: string
+        default: "stable"
+      run-build-runner:
+        description: Run build_runner before analysis and tests.
+        type: boolean
+        default: false
+
+jobs:
+  dart-ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        if: ${{ inputs.flutter-version != '' }}
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ inputs.flutter-version }}
+          channel: stable
+
+      - name: Set up Dart
+        if: ${{ inputs.flutter-version == '' }}
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: ${{ inputs.dart-version }}
+
+      - name: Install dependencies (Flutter)
+        if: ${{ inputs.flutter-version != '' }}
+        run: flutter pub get
+
+      - name: Install dependencies (Dart)
+        if: ${{ inputs.flutter-version == '' }}
+        run: dart pub get
+
+      - name: Run build_runner
+        if: ${{ inputs.run-build-runner }}
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Check formatting (Flutter)
+        if: ${{ inputs.flutter-version != '' }}
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Check formatting (Dart)
+        if: ${{ inputs.flutter-version == '' }}
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze (Flutter)
+        if: ${{ inputs.flutter-version != '' }}
+        run: flutter analyze --fatal-infos
+
+      - name: Analyze (Dart)
+        if: ${{ inputs.flutter-version == '' }}
+        run: dart analyze --fatal-infos
+
+      - name: Test (Flutter)
+        if: ${{ inputs.flutter-version != '' }}
+        run: flutter test --coverage
+
+      - name: Test (Dart)
+        if: ${{ inputs.flutter-version == '' }}
+        run: dart test
