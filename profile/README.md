@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/lumen-assistive/.github/main/profile/assets/banner.png" alt="Lumen: a little light, when it's needed." width="800">
+</p>
+
 # Lumen
 
 Lumen is an open source, offline-first, privacy-by-design assistant for

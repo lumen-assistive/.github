@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640" role="img" aria-label="Lumen">
+  <rect width="1280" height="640" fill="#1c1a16"/>
+  <path d="M 680.15 162.66 A 70 70 0 1 1 599.85 162.66" fill="none" stroke="#e3a94a" stroke-width="26" stroke-linecap="round"/>
+  <text x="640" y="380" font-family="Arial, Helvetica, sans-serif" font-size="92" font-weight="700" fill="#fdfbf5" text-anchor="middle">Lumen</text>
+  <text x="640" y="432" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#b7ae99" text-anchor="middle">A little light, when it's needed.</text>
+  <text x="640" y="600" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#6b655a" text-anchor="middle">github.com/lumen-assistive</text>
+</svg>
