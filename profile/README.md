@@ -32,17 +32,43 @@ Local data is encrypted.
 | [lumen-core](https://github.com/lumen-assistive/lumen-core) | Senses engine and plugin bus shared by every module |
 | [lumen-sdk](https://github.com/lumen-assistive/lumen-sdk) | Plugin SDK: interfaces, template, contributor guide |
 | [lumen-app](https://github.com/lumen-assistive/lumen-app) | The Flutter application |
-| [lumen-plugin-vedere](https://github.com/lumen-assistive/lumen-plugin-vedere) | Vedere (See) module |
-| [lumen-plugin-sentire](https://github.com/lumen-assistive/lumen-plugin-sentire) | Sentire (Hear) module |
-| [lumen-plugin-protezione](https://github.com/lumen-assistive/lumen-plugin-protezione) | Protezione (Safety) module |
-| [lumen-plugin-famiglia](https://github.com/lumen-assistive/lumen-plugin-famiglia) | Famiglia e caregiver module |
+| [lumen-plugins](https://github.com/lumen-assistive/lumen-plugins) | All eight module packages: Vedere, Sentire, Parlare, Leggere e Studiare, Ricordare, Protezione, Muoversi, Famiglia e caregiver |
 | [lumen-server](https://github.com/lumen-assistive/lumen-server) | Optional caregiver backend |
 | [lumen-models](https://github.com/lumen-assistive/lumen-models) | Model conversion, quantization and benchmarks |
 | [lumen-website](https://github.com/lumen-assistive/lumen-website) | Project website and documentation |
 
 Repositories are created when their build phase starts; see each
 repository's README for current status. There are no empty placeholder
-repositories in this organization.
+repositories in this organization. The four module repositories
+(`lumen-plugin-vedere`, `lumen-plugin-sentire`, `lumen-plugin-protezione`,
+`lumen-plugin-famiglia`) that used to be listed here were consolidated into
+`lumen-plugins` and have been deleted.
+
+## Screenshots
+
+Real screenshots of `lumen-app`'s own widget tree, not mockups: the home
+screen with all eight modules enabled, and each module's real screen with
+its tools already run once. See
+[lumen-app](https://github.com/lumen-assistive/lumen-app#screenshots) for
+how these are captured.
+
+<table>
+<tr>
+<td align="center"><img src="https://raw.githubusercontent.com/lumen-assistive/.github/main/profile/assets/screenshots/home.png" width="180"><br>Home</td>
+<td align="center"><img src="https://raw.githubusercontent.com/lumen-assistive/.github/main/profile/assets/screenshots/vedere.png" width="180"><br>Vedere</td>
+<td align="center"><img src="https://raw.githubusercontent.com/lumen-assistive/.github/main/profile/assets/screenshots/sentire.png" width="180"><br>Sentire</td>
+<td align="center"><img src="https://raw.githubusercontent.com/lumen-assistive/.github/main/profile/assets/screenshots/protezione.png" width="180"><br>Protezione</td>
+</tr>
+<tr>
+<td align="center"><img src="https://raw.githubusercontent.com/lumen-assistive/.github/main/profile/assets/screenshots/famiglia.png" width="180"><br>Famiglia</td>
+<td align="center"><img src="https://raw.githubusercontent.com/lumen-assistive/.github/main/profile/assets/screenshots/parlare.png" width="180"><br>Parlare</td>
+<td align="center"><img src="https://raw.githubusercontent.com/lumen-assistive/.github/main/profile/assets/screenshots/leggere.png" width="180"><br>Leggere e Studiare</td>
+<td align="center"><img src="https://raw.githubusercontent.com/lumen-assistive/.github/main/profile/assets/screenshots/ricordare.png" width="180"><br>Ricordare</td>
+</tr>
+<tr>
+<td align="center"><img src="https://raw.githubusercontent.com/lumen-assistive/.github/main/profile/assets/screenshots/muoversi.png" width="180"><br>Muoversi</td>
+</tr>
+</table>
 
 ## Principles
 
