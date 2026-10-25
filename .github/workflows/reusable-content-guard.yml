@@ -16,11 +16,25 @@ jobs:
           set -euo pipefail
           # Excludes this workflow and the commit-msg hook, which must name
           # the forbidden terms literally in order to detect them.
-          pattern='(Co-authored-by|Claude|Anthropic|Codebuff|Cursor|Generated with)'
+          #
+          # "Cursor" is checked case-sensitively and separately from the
+          # other terms: matched case-insensitively, it collides with the
+          # ordinary English word "cursor" (for example the CSS `cursor`
+          # property), which is not a reference to the AI tool.
+          pattern_ci='\b(Co-authored-by|Claude|Anthropic|Codebuff|Generated with)\b'
+          pattern_cursor='\bCursor\b'
           excludes=(':!*.lock' ':!**/CHANGELOG.md' ':!.github/workflows/reusable-content-guard.yml' ':!.githooks/commit-msg')
-          if git grep -IEiq "$pattern" -- . "${excludes[@]}"; then
+          found=0
+          if git grep -IEiq "$pattern_ci" -- . "${excludes[@]}"; then
+            found=1
+          fi
+          if git grep -IEq "$pattern_cursor" -- . "${excludes[@]}"; then
+            found=1
+          fi
+          if [ "$found" -eq 1 ]; then
             echo "Forbidden AI tool reference or co-authorship trailer found in tracked files:" >&2
-            git grep -IEin "$pattern" -- . "${excludes[@]}" >&2 || true
+            git grep -IEin "$pattern_ci" -- . "${excludes[@]}" >&2 || true
+            git grep -IEn "$pattern_cursor" -- . "${excludes[@]}" >&2 || true
             exit 1
           fi
 

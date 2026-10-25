@@ -7,9 +7,13 @@ set -euo pipefail
 commit_msg_file="$1"
 commit_msg="$(cat "$commit_msg_file")"
 
-forbidden_pattern='(Co-authored-by|Claude|Anthropic|Codebuff|Cursor|Generated with)'
+# "Cursor" is checked case-sensitively and separately: matched
+# case-insensitively, it collides with the ordinary English word "cursor".
+forbidden_pattern_ci='\b(Co-authored-by|Claude|Anthropic|Codebuff|Generated with)\b'
+forbidden_pattern_cursor='\bCursor\b'
 
-if printf '%s' "$commit_msg" | grep -Eiq "$forbidden_pattern"; then
+if printf '%s' "$commit_msg" | grep -Eiq "$forbidden_pattern_ci" \
+  || printf '%s' "$commit_msg" | grep -Eq "$forbidden_pattern_cursor"; then
   echo "commit-msg hook: commit message must not reference AI tools or contain a Co-authored-by trailer for one." >&2
   exit 1
 fi
